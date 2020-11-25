@@ -1,36 +1,19 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
-import { makeStyles } from '@material-ui/core/styles';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
-import SelectInput from '@material-ui/core/Select/SelectInput';
-import BucketSearchBar from '../../molecules/BucketSearchBar/BucketSearchBar';
 import SearchResultItem from '../../molecules/SearchResultItem/SearchResultItem';
-
-const useStyles = makeStyles((theme) => ({
-  typography: {
-    padding: theme.spacing(2),
-  },
-}));
+import Span from '../../atoms/Span/Span';
 
 const BucketSearchWrapper = styled.div`
   display: flex;
+  padding: 15px;
+  width: 500px;
 `;
 
 const BucketSearch = () => {
-  const classes = useStyles();
-  const [anchorEl, setAnchorEl] = useState(null);
   const [loading, setLoading] = useState(false);
   let timer = null;
-
-  const handleClick = (e) => {
-    console.log(e.currentTarget);
-    setAnchorEl(e.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
 
   const onChangeHandler = async (e) => {
     setLoading(true);
@@ -39,9 +22,6 @@ const BucketSearch = () => {
       setLoading(false);
     }, 1000);
   };
-
-  const open = Boolean(anchorEl);
-  const id = open ? 'simple-popover' : undefined;
   const data1 = [
     {
       bucketTitle: 'Be president',
@@ -53,8 +33,6 @@ const BucketSearch = () => {
         bucketDetails: ['do not '],
       },
     },
-  ];
-  const data2 = [
     {
       bucketTitle: 'Be smarter',
       bucketDesigner: 'Dude',
@@ -66,16 +44,27 @@ const BucketSearch = () => {
       },
     },
   ];
+  const preData = [
+    {
+      bucketTitle: 'Loading',
+    },
+  ];
 
-  const options = loading ? data1 : data2;
+  const data = loading ? preData : data1;
 
   return (
     <BucketSearchWrapper>
       <Autocomplete
         id="combo-box-demo"
-        options={options}
+        options={data}
+        filterOptions={(options, state) => options}
         getOptionLabel={(option) => option.bucketTitle}
+        getOptionDisabled={() => loading}
         style={{ width: 300 }}
+        renderOption={(option) => {
+          if (loading) return <Span content="loading" />;
+          return <SearchResultItem bucket={option} />;
+        }}
         renderInput={(params) => (
           <TextField {...params} label="목표 검색" variant="outlined" onChange={onChangeHandler} />
         )}
