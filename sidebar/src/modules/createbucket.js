@@ -6,6 +6,7 @@ import {
   INPUT_TITLE,
   REMOVE_DETAIL,
   RESET_BUCKET,
+  LOAD_PRESET,
 } from './actions/actionTypes';
 
 const initialState = {
@@ -27,6 +28,10 @@ const createbucket = handleActions(
         const idx = draft.details.indexOf(input);
         draft.details.splice(idx, 1);
       }),
+    [LOAD_PRESET]: (state, { payload: input }) => {
+      const { bucketTitle, bucketDescription, bucketDetails } = input;
+      return { title: bucketTitle, description: bucketDescription, details: bucketDetails };
+    },
     [RESET_BUCKET]: (state, action) => initialState,
   },
   initialState

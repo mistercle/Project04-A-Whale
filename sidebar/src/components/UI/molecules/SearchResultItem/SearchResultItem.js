@@ -1,6 +1,8 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import styled from 'styled-components';
 import Span from '../../atoms/Span/Span';
+import { loadPresetAction } from '../../../../modules/actions/createbucket';
 
 const SearchResultItemWrapper = styled.div`
   display: flex;
@@ -27,10 +29,15 @@ const RefNumStyle = {
   verticalAlign: 'center',
 };
 
-const SearchResultItem = ({ bucket }) => {
+const SearchResultItem = ({ bucket, loadPresetActionConnect }) => {
   const { bucketTitle, bucketDesigner, bucketRefNum, bucketData } = bucket;
+
+  const onClickHandler = () => {
+    loadPresetActionConnect(bucketData);
+  };
+
   return (
-    <SearchResultItemWrapper>
+    <SearchResultItemWrapper onClick={onClickHandler}>
       <Span name="bucketTitle" style={TitleStyle} content={bucketTitle} />
       <Span name="bucketDesigner" style={DesignerStyle} content={`@${bucketDesigner}`} />
       <Span name="bucketRefNum" style={RefNumStyle} content={`(${bucketRefNum}건)`} />
@@ -38,4 +45,4 @@ const SearchResultItem = ({ bucket }) => {
   );
 };
 
-export default SearchResultItem;
+export default connect(null, { loadPresetActionConnect: loadPresetAction })(SearchResultItem);
