@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import BucketSearchBar from '../../UI/molecules/BucketSearchBar/BucketSearchBar';
+import BucketSearch from '../../UI/organisms/BucketSearch/BucketSearch';
 import BucketContents from '../../UI/organisms/BucketContents/BucketContents';
 import DetailList from '../../UI/organisms/DetailList/DetailList';
 import Title from '../../UI/molecules/Title/Title';
@@ -16,7 +16,7 @@ const BucketCreateTemplate = () => {
   return (
     <BucketCreateTemplateWrapper>
       <Title />
-      <BucketSearchBar />
+      <BucketSearch />
       <BucketContents />
       <DetailList />
       <Buttons />
