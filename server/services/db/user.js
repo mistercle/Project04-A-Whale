@@ -9,18 +9,18 @@ exports.selectUsers = async () => {
   return results;
 };
 
-exports.searchUsers = async ( keyword) => {
+exports.searchUsers = async (keyword) => {
   const results = await User.findAll({
     attributes: ['no', 'nickname', 'profile_url'],
     raw: true,
-  })
-}
+  });
+};
 
-exports.getUserbyNo = async ( no ) => {
+exports.findUser = async (no) => {
   const results = await User.findAll({
     attributes: ['no', 'nickname', 'profile_url', 'description', 'rank'],
     where: {
-      no: no
+      no,
     },
     raw: true,
   });
